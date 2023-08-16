@@ -1,31 +1,23 @@
-package br.com.henrique.data.vo.v1;
+package br.com.henrique.data.vo.v2;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonPropertyOrder({"id", "first_name", "last_name", "gender", "address"})
-public class PersonVO implements Serializable {
+public class PersonVOV2 implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	
 	private Long id;
-	
-	@JsonProperty("first_name")
 	private String firstName;
-	
-	@JsonProperty("last_name")
 	private String lastName;
 	private String address;
-	
-	@JsonIgnore
 	private String gender;
 	
-	public PersonVO() 
+	private Date birthDay;
+	
+	public PersonVOV2() 
 	{
 		
 	}
@@ -61,10 +53,26 @@ public class PersonVO implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	public Date getBirthDay() {
+		return birthDay;
+	}
+
+	public void setBirthDay(Date birthDay) {
+		this.birthDay = birthDay;
+	}
+	
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, firstName, gender, id, lastName);
+		return Objects.hash(address, birthDay, firstName, gender, id, lastName);
 	}
 
 	@Override
@@ -75,18 +83,12 @@ public class PersonVO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PersonVO other = (PersonVO) obj;
-		return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(gender, other.gender) && Objects.equals(id, other.id)
-				&& Objects.equals(lastName, other.lastName);
+		PersonVOV2 other = (PersonVOV2) obj;
+		return Objects.equals(address, other.address) && Objects.equals(birthDay, other.birthDay)
+				&& Objects.equals(firstName, other.firstName) && Objects.equals(gender, other.gender)
+				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName);
 	}
 
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+	
 	
 }
