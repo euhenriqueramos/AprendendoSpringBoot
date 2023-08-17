@@ -54,6 +54,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -61,6 +69,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<dependencies>
+			      <dependency>
+			         <groupId>mysql</groupId>
+			         <artifactId>mysql-connector-java</artifactId>
+			         <version>${mysql.version}</version>
+			         <exclusions>
+			            <exclusion>
+			               <artifactId>slf4j-api</artifactId>
+			               <groupId>org.slf4j</groupId>
+			            </exclusion>
+			         </exclusions>
+			      </dependency>
+			   </dependencies>
 			</plugin>
 		</plugins>
 	</build>
