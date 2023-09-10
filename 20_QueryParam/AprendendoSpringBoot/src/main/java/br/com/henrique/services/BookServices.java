@@ -3,10 +3,14 @@ package br.com.henrique.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import br.com.henrique.controllers.BookController;
@@ -25,28 +29,34 @@ public class BookServices {
 	@Autowired
 	BookRepository repository;
 	
+	@Autowired
+	PagedResourcesAssembler<BookVO> assembler;
 	
-	public List<BookVO> findAll()
+	
+	public PagedModel<EntityModel<BookVO>> findAll(Pageable pageable) throws Exception
 	{
 		logger.info("Finding all book!");
 		
-		var books = DozerMapper.parseListObjects(repository.findAll(), BookVO.class);
-		books
-			.stream()
-			.forEach(p -> {
-				try {
-					p.add(
-							linkTo(
-									methodOn(BookController.class).findById(p.getKey())).withSelfRel()
-							
-								);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		var BookPage = repository.findAll(pageable);
+		
+		var booksVosPage = BookPage.map(p -> DozerMapper.parseObject(p, BookVO.class));
+		
+		booksVosPage.map(p-> {
+			try {
+				return p.add(linkTo(methodOn(BookController.class).findById(p.getKey())).withSelfRel());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
 			}
-					);
-		return books;
+		});
+		
+		Link link = linkTo(methodOn(BookController.class)
+				.findAll(pageable.getPageNumber(),
+						pageable.getPageSize(),
+						"asc")).withSelfRel();
+		
+		return assembler.toModel(booksVosPage, link);
 	}
 	
 	public BookVO findById(Long id)

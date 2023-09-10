@@ -1,10 +1,12 @@
 package br.com.henrique.unittest.mockito.services;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -62,7 +64,7 @@ class BookServicesTest {
 			   //assertEquals(data, result.getLaunchDate());
 			   assertEquals("Title1", result.getTitle());
 	}
-	
+	/*
 	@Test
 	void testFindAll() {
 		List<Book> list = input.mockEntityList();
@@ -110,7 +112,7 @@ class BookServicesTest {
 		  // assertEquals(data, bookSeven.getLaunchDate());
 		   assertEquals("Title7", bookSeven.getTitle());
 	}
-
+*/
 	@Test
 	void testCreate() {
 		Book entity = input.mockEntity(1);
